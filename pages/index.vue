@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const url = ref("")
 const isInput = ref(true)
-const currentHref = ref('http://localhost:3000/')
+const currentHref = ref('http://sht.puntawat.dev/')
 
 // const data = await $fetch.raw("/api/newUrl", {
 //     method: "POST",
