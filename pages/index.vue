@@ -2,6 +2,7 @@
 const url = ref("")
 const isInput = ref(true)
 const currentHref = ref('http://sht.puntawat.dev/')
+const currentAppName = ref("Puntawat's URL Shortener")
 
 // const data = await $fetch.raw("/api/newUrl", {
 //     method: "POST",
@@ -69,7 +70,7 @@ const onCopy = () => {
 
 <template>
     <div class="text-center justify-center flex flex-col items-center h-screen content-center object-center">
-        <h1 class="text-[35px] font-bold mb-[30px]">Puntawat's URL Shortener</h1>
+        <h1 class="text-[35px] font-bold mb-[30px]">{{ currentAppName }}</h1>
 
         <div class="flex-row flex mx-auto">
             <input type="text" id="first_name"
