@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 useHead({
-  title: "Puntawat's URL Shortener",
+  title: "Inedible.dev's URL Shortener",
   meta: [
     { name: 'description', content: 'URL Shortener' }
   ],
