@@ -1,7 +1,10 @@
 <script setup lang="ts">
 const url = ref("")
 const isInput = ref(true)
-const currentHref = ref('https://short.inedible.dev/')
+// const currentHref = ref('https://short.inedible.dev/')
+const currentHref = useState('currentHref')
+const appName = useState('appName')
+
 
 // const data = await $fetch.raw("/api/newUrl", {
 //     method: "POST",
@@ -64,10 +67,33 @@ const onCopy = () => {
     alert(`Copied ${currentHref.value}${url.value} to clipboard.`)
 }
 </script>
+<script lang="ts">
+export default {
+    mounted() {
+        const isSubdomain = (url: any, domain: any) => {
+            try {
+                const hostname = new URL(url).hostname;
+                return hostname.endsWith('.' + domain) && hostname.split('.').length > domain.split('.').length;
+            } catch (e) {
+                // Handle invalid URLs
+                return false;
+            }
+        }
+        const currentHref = useState('currentHref')
+        currentHref.value = window.location.href
+        const appName = useState('appName')
+        if (isSubdomain(currentHref.value, "inedible.dev")) {
+            appName.value = "Inedible"
+        } else {
+            appName.value = "Puntawat"
+        }
+    },
+}
+</script>
 
 <template>
     <div class="text-center justify-center flex flex-col items-center h-screen content-center object-center">
-        <h1 class="text-[35px] font-bold mb-[30px]">Puntawat's URL Shortener</h1>
+        <h1 class="text-[35px] font-bold mb-[30px]">{{ appName }}'s URL Shortener</h1>
 
         <div class="flex-row flex mx-auto">
             <input type="text" id="first_name"
