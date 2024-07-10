@@ -1,8 +1,7 @@
 <script setup lang="ts">
 const url = ref("")
 const isInput = ref(true)
-const currentHref = ref('http://sht.puntawat.dev/')
-const currentAppName = ref("Puntawat's URL Shortener")
+const currentHref = ref('https://short.inedible.dev/')
 
 // const data = await $fetch.raw("/api/newUrl", {
 //     method: "POST",
@@ -64,13 +63,11 @@ const onCopy = () => {
     navigator.clipboard.writeText(`${currentHref.value}${url.value}`)
     alert(`Copied ${currentHref.value}${url.value} to clipboard.`)
 }
-
-
 </script>
 
 <template>
     <div class="text-center justify-center flex flex-col items-center h-screen content-center object-center">
-        <h1 class="text-[35px] font-bold mb-[30px]">{{ currentAppName }}</h1>
+        <h1 class="text-[35px] font-bold mb-[30px]">Puntawat's URL Shortener</h1>
 
         <div class="flex-row flex mx-auto">
             <input type="text" id="first_name"
@@ -81,10 +78,10 @@ const onCopy = () => {
                 id="urlField" v-if="!isInput">
             {{ currentHref }}{{ url }}</div>
             <button
-                class="bg-slate-900 outline-none transition-all ease-in-out hover:scale-110 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 text-white font-semibold h-12 px-6 rounded-lg w-full flex items-center justify-center sm:w-auto dark:bg-sky-500 dark:highlight-white/20 dark:hover:bg-sky-400"
+                class="outline-none transition-all ease-in-out hover:scale-110 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 text-white font-semibold h-12 px-6 rounded-lg w-full flex items-center justify-center sm:w-auto bg-sky-500 dark:highlight-white/20 hover:bg-sky-400"
                 type="submit" @click="onShorten" v-if="isInput">Shorten</button>
             <button
-                class="bg-slate-900 outline-none transition-all ease-in-out hover:scale-110 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 text-white font-semibold h-12 px-6 rounded-lg w-full flex items-center justify-center sm:w-auto dark:bg-sky-500 dark:highlight-white/20 dark:hover:bg-sky-400"
+                class="outline-none transition-all ease-in-out hover:scale-110 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 text-white font-semibold h-12 px-6 rounded-lg w-full flex items-center justify-center sm:w-auto bg-sky-500 dark:highlight-white/20 hover:bg-sky-400"
                 type="submit" @click="onCopy" v-if="!isInput">Copy</button>
         </div>
     </div>
