@@ -7,7 +7,8 @@ export default async (event: H3Event) => {
         const url = await prisma.uRLS.create({
             data: {
                 id: `${body.id}`,
-                url: `${body.url}`
+                url: `${body.url}`,
+                user_id: `${body.user_id}`
             }
         })
         return url
