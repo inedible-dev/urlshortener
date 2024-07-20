@@ -11,10 +11,10 @@ datasource db {
 }
 
 model URLS {
-  id      String @id @unique
+  id      String  @id @unique
   url     String
-  user_id String
-  visits  Int    @default(0)
+  user_id String?
+  visits  Int     @default(0)
 
   @@index([user_id])
 }
