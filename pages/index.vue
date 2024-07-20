@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 const url = ref("")
 const isInput = ref(true)
 // const currentHref = ref('https://short.inedible.dev/')
@@ -66,43 +66,50 @@ const onCopy = () => {
     navigator.clipboard.writeText(`${currentHref.value}${url.value}`)
     alert(`Copied ${currentHref.value}${url.value} to clipboard.`)
 }
-</script>
+</script> -->
 <script lang="ts">
 export default {
-    mounted() {
-        const isSubdomain = (url: any, domain: any) => {
-            try {
-                const hostname = new URL(url).hostname;
-                return hostname.endsWith('.' + domain) && hostname.split('.').length > domain.split('.').length;
-            } catch (e) {
-                // Handle invalid URLs
-                return false;
-            }
-        }
-        const currentHref = useState('currentHref')
-        currentHref.value = window.location.href
-        const appName = useState('appName')
-        if (isSubdomain(currentHref.value, "inedible.dev")) {
-            appName.value = "Inedible"
+    // mounted() {
+    //     const isSubdomain = (url: any, domain: any) => {
+    //         try {
+    //             const hostname = new URL(url).hostname;
+    //             return hostname.endsWith('.' + domain) && hostname.split('.').length > domain.split('.').length;
+    //         } catch (e) {
+    //             // Handle invalid URLs
+    //             return false;
+    //         }
+    //     }
+    //     const currentHref = useState('currentHref')
+    //     currentHref.value = window.location.href
+    //     const appName = useState('appName')
+    //     if (isSubdomain(currentHref.value, "inedible.dev")) {
+    //         appName.value = "Inedible"
+    //     } else {
+    //         appName.value = "Puntawat"
+    //     }
+    // },
+    async beforeMount() {
+        if (!localStorage.getItem("uid")) {
+            await navigateTo("/signup")
         } else {
-            appName.value = "Puntawat"
+            await navigateTo("/dash")
         }
     },
 }
 </script>
 
 <template>
-    <div class="text-center justify-center flex flex-col items-center h-screen content-center object-center">
+    <!-- <div class="text-center justify-center flex flex-col items-center h-screen content-center object-center">
         <h1 class="text-[35px] font-bold mb-[30px]">{{ appName }}'s URL Shortener</h1>
 
         <div class="flex-row flex mx-auto">
             <input type="text" id="first_name"
                 class="bg-gray-50 border border-gray-300 outline-none mr-[15px] text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5"
                 placeholder="URL" name="url" v-model="url" v-if="isInput" required autocomplete="off" autofocus>
-                <div type="text"
+            <div type="text"
                 class="bg-gray-50 border pt-[12px] border-gray-300 outline-none mr-[15px] text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5"
                 id="urlField" v-if="!isInput">
-            {{ currentHref }}{{ url }}</div>
+                {{ currentHref }}{{ url }}</div>
             <button
                 class="outline-none transition-all ease-in-out hover:scale-110 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 text-white font-semibold h-12 px-6 rounded-lg w-full flex items-center justify-center sm:w-auto bg-sky-500 dark:highlight-white/20 hover:bg-sky-400"
                 type="submit" @click="onShorten" v-if="isInput">Shorten</button>
@@ -110,5 +117,6 @@ export default {
                 class="outline-none transition-all ease-in-out hover:scale-110 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 text-white font-semibold h-12 px-6 rounded-lg w-full flex items-center justify-center sm:w-auto bg-sky-500 dark:highlight-white/20 hover:bg-sky-400"
                 type="submit" @click="onCopy" v-if="!isInput">Copy</button>
         </div>
-    </div>
+    </div> -->
+    Please enable JavaScript
 </template>
