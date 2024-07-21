@@ -4,7 +4,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     // if (to.path === "/") {
     //     return navigateTo('/signup')
     // }
-    const allowPath = ["/", "/login", "/nof", "/signup", "/dash", "/api/checkUrl", "/api/newUrl", "/api/addUser", "/new"]
+    const allowPath = ["/", "/login", "/nof", "/signup", "/dash", "/api/checkUrl", "/api/newUrl", "/api/addUser", "/new", "/fog"]
     if (!(allowPath.includes(to.path))) {
         let path = to.path
         path = path.substring(1)

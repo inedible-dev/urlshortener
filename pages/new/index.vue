@@ -7,6 +7,7 @@ const isInput = ref(true)
 // const currentHref = ref('https://short.inedible.dev/')
 const currentHref = useState('currentHref')
 const appName = useState('appName')
+const useUID = useState<string | undefined>("uid")
 
 
 // const data = await $fetch.raw("/api/newUrl", {
@@ -49,13 +50,12 @@ const onShorten = async () => {
         })
         if (data._data == "not found") {
             // console.log(data._data)
-            const uid = localStorage.getItem("uid")
             try {
                 const newData = await $fetch.raw("/api/newUrl", {
                     method: "POST",
-                    body: { id: `${urlString}`, url: `${url.value}`, user_id: `${uid}` }
+                    body: { id: `${urlString}`, url: `${url.value}`, user_id: `${useUID.value}` }
                 })
-                console.log(newData)
+                // console.log(newData)
             } catch (err: any) {
                 alert(err.message)
             }
@@ -77,7 +77,8 @@ const logOut = () => {
     console.log("log out")
     signOut(auth).then(async () => {
         // success
-        localStorage.removeItem("uid")
+        // localStorage.removeItem("uid")
+        useUID.value = undefined
         console.log("success")
         await navigateTo("/")
     }).catch((error: any) => {
@@ -87,7 +88,20 @@ const logOut = () => {
 }
 </script>
 <script lang="ts">
+import { onAuthStateChanged } from 'firebase/auth';
 export default {
+    async beforeMount() {
+        const app = useFirebaseApp();
+        const auth = getAuth();
+        const useUID = useState<string | undefined>("uid");
+        onAuthStateChanged(auth, async (user) => {
+            if (!(user?.uid)) {
+                await navigateTo("/signup");
+            } else {
+                useUID.value = user.uid;
+            }
+        })
+    },
     mounted() {
         const isSubdomain = (url: any, domain: any) => {
             try {

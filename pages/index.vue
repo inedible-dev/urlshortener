@@ -68,6 +68,7 @@ const onCopy = () => {
 }
 </script> -->
 <script lang="ts">
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 export default {
     // mounted() {
     //     const isSubdomain = (url: any, domain: any) => {
@@ -89,11 +90,17 @@ export default {
     //     }
     // },
     async beforeMount() {
-        if (!localStorage.getItem("uid")) {
-            await navigateTo("/signup")
-        } else {
-            await navigateTo("/dash")
-        }
+        const app = useFirebaseApp();
+        const auth = getAuth();
+        const useUID = useState<string | undefined>("uid");
+        onAuthStateChanged(auth, async (user) => {
+            if (!(user?.uid)) {
+                await navigateTo("/signup");
+            } else {
+                useUID.value = user.uid
+                await navigateTo("/dash");
+            }
+        })
     },
 }
 </script>
@@ -118,5 +125,5 @@ export default {
                 type="submit" @click="onCopy" v-if="!isInput">Copy</button>
         </div>
     </div> -->
-    Please enable JavaScript
+    <!-- Please enable JavaScript -->
 </template>

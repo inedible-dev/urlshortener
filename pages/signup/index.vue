@@ -19,7 +19,7 @@
           <div class="flex items-center justify-between">
             <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
             <div class="text-sm">
-              <a class="font-semibold text-[10px] text-sky-600">DO NOT use the password you used on any other websites.</a>
+              <!-- <a class="font-semibold text-[10px] text-sky-600">DO NOT use the password you used on any other websites.</a> -->
             </div>
           </div>
           <div class="mt-2">
@@ -54,9 +54,9 @@
       </p>
     </div>
   </div>
-  <footer class="absolute bottom-2 w-full text-center">
+  <!-- <footer class="absolute bottom-2 w-full text-center">
     <a class="">Copyright © 2024 <a class="font-semibold">Puntawat Subhamani.</a> All rights reserved.</a>
-  </footer>
+  </footer> -->
 </template>
 
 <script lang="ts" setup>
