@@ -66,10 +66,10 @@
                 href="/new"
                 class="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button">Create new</a>
-                <a
+                <!-- <a
                 href="/dash"
                 class="bg-sky-600 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="button">Reload</a>
+                type="button">Reload</a> -->
             </div>
           </div>
         </div>
@@ -118,29 +118,32 @@
 
 
 <script lang="ts">
-import { getAuth, signOut } from 'firebase/auth';
+import { getAuth, signOut, onAuthStateChanged } from 'firebase/auth';
 
 export default {
-    async beforeMount() {
-        if (!localStorage.getItem("uid")) {
-            await navigateTo("/")
-        }
-    },
-    async mounted() {
-      const currentHref = useState<string>("dashHref")
-      const href = window.location.href
-      if (href.includes("/dash/")) {
-        currentHref.value = href.replace("/dash/", "/")
-      } else if (href.includes("/dash")) {
-        currentHref.value = href.replace("/dash", "/")
+  async beforeMount() {
+    const app = useFirebaseApp();
+    const auth = getAuth();
+    const useUID = useState < string | undefined > ("uid");
+    onAuthStateChanged(auth, async (user) => {
+      if (!(user?.uid)) {
+        await navigateTo("/signup");
       } else {
-        currentHref.value = href
-      }
-      const urls = useState<any>("urlData")
-      const url = await $fetch.raw("/api/checkUser", {
+        useUID.value = user.uid;
+        const currentHref = useState < string > ("dashHref")
+        const href = window.location.href
+        if (href.includes("/dash/")) {
+          currentHref.value = href.replace("/dash/", "/")
+        } else if (href.includes("/dash")) {
+          currentHref.value = href.replace("/dash", "/")
+        } else {
+          currentHref.value = href
+        }
+        const urls = useState < any > ("urlData")
+        const url = await $fetch.raw("/api/checkUser", {
           method: "POST",
           body: {
-            user_id: `${localStorage.getItem("uid")}`
+            user_id: `${useUID.value}`
           }
         })
         if (url.status !== 200) {
@@ -152,7 +155,9 @@ export default {
             urls.value = url._data
           }
         }
-    }
+      }
+    })
+  }
 }
 
 </script>
@@ -162,12 +167,14 @@ const auth = getAuth();
 
 const urls = useState<any>("urlData")
 const currentHref = useState<string>("dashHref")
+const useUID = useState<string | undefined>("uid")
 
 const logOut = () => {
   console.log("Log Out");
   signOut(auth).then(async () => {
     // success
-    localStorage.removeItem("uid")
+    // localStorage.removeItem("uid")
+    useUID.value = undefined
     console.log("Log out succuss")
     await navigateTo("/signup")
   }).catch((error: any) => {

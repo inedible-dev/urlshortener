@@ -19,7 +19,7 @@
           <div class="flex items-center justify-between">
             <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
             <div class="text-sm">
-              <a href="#" class="font-semibold text-sky-600 hover:text-sky-500">Forgot password?</a>
+              <a href="/fog" class="font-semibold text-sky-600 hover:text-sky-500">Forgot password?</a>
             </div>
           </div>
           <div class="mt-2">
@@ -39,18 +39,18 @@
       </p>
     </div>
   </div>
-  <footer class="absolute bottom-2 w-full text-center">
+  <!-- <footer class="absolute bottom-2 w-full text-center">
     <a class="">Copyright © 2024 <a class="font-semibold">Puntawat Subhamani.</a> All rights reserved.</a>
-  </footer>
+  </footer> -->
 </template>
 
 <script lang="ts" setup>
 import { getAuth, sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
-
 const app = useFirebaseApp()
 const auth = getAuth()
 const email = ref("")
 const password = ref("")
+const useUID = useState<string | undefined>("uid")
 const clearField = () => {
   password.value = ""
 }
@@ -73,7 +73,8 @@ const signInClicked = () => {
             console.log("Email not verified or unknown errors have occured")
           })
       } else {
-        localStorage.setItem("uid", uid)
+        // localStorage.setItem("uid", uid)
+        useUID.value = uid
         await navigateTo("/dash")
       }
     }).catch((error: any) => {

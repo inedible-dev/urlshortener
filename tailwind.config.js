@@ -10,9 +10,9 @@ module.exports = {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        sans: ['Montserrat', ...defaultTheme.fontFamily.sans],
-      },
+      // fontFamily: {
+      //   sans: ['Montserrat', ...defaultTheme.fontFamily.sans],
+      // },
       colors: {
         red: {
           '50': '#ffebee',
