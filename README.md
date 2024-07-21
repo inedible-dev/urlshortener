@@ -1,5 +1,7 @@
 # URL Shortener
 
+This is the classic original URL Shortener without any fancy features. Just "URL Shortener".
+
 ## Setup
 
 Make sure to install the dependencies:
