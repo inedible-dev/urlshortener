@@ -3,11 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build --dotenv .env.production && cp ./prisma/dev.db .output/server/node_modules/.prisma/client/dev.db && cp -rf ./prisma/migrations .output/server/node_modules/.prisma/client/migrations",
+    "build": "nuxt build --dotenv .env.production",
     "dev": "nuxt dev --dotenv .env.development",
     "generate": "nuxt generate",
     "preview": "node --env-file=.env.production .output/server/index.mjs",
-    "postinstall": "nuxt prepare"
+    "start": "node --env-file=.env.production .output/server/index.mjs",
+    "postinstall": "nuxt prepare --dotenv .env.production"
   },
   "dependencies": {
     "@prisma/nuxt": "^0.0.30",

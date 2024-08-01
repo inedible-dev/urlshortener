@@ -1,8 +1,11 @@
 -- CreateTable
 CREATE TABLE "URLS" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "id" TEXT NOT NULL,
     "url" TEXT NOT NULL,
-    "user_id" TEXT NOT NULL
+    "user_id" TEXT,
+    "visits" INTEGER NOT NULL DEFAULT 0,
+
+    CONSTRAINT "URLS_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex

@@ -3,7 +3,7 @@ import "./env";
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
-  devtools: { enabled: true },
+  devtools: { enabled: false },
   modules: ["@prisma/nuxt", "@nuxtjs/tailwindcss"],
   alias: {
     ".prisma/client/default": "./node_modules/.pnpm/@prisma+client@5.17.0_prisma@5.17.0/node_modules/.prisma/client/default.js",
@@ -15,7 +15,8 @@ export default defineNuxtConfig({
     ]
   },
   routeRules: {
-    '/**': { ssr: true }
+    '/**': { ssr: true },
+    '/new': { ssr: false }
   },
   runtimeConfig: {
     public: {
