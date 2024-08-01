@@ -1,7 +1,9 @@
+import "./env";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
-  devtools: { enabled: false },
+  devtools: { enabled: true },
   modules: ["@prisma/nuxt", "@nuxtjs/tailwindcss"],
   alias: {
     ".prisma/client/default": "./node_modules/.pnpm/@prisma+client@5.17.0_prisma@5.17.0/node_modules/.prisma/client/default.js",
@@ -11,5 +13,19 @@ export default defineNuxtConfig({
     dirs: [
       'composables'
     ]
+  },
+  routeRules: {
+    '/**': { ssr: true }
+  },
+  runtimeConfig: {
+    public: {
+      firebaseApiKey: "",
+      authDomain: "",
+      projectId: "",
+      storageBucket: "",
+      messagingSenderId: "",
+      appId: "",
+      measurementId: ""
+    }
   }
 })

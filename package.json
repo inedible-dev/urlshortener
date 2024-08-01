@@ -3,18 +3,20 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "nuxt build && cp ./prisma/dev.db .output/server/node_modules/.prisma/client/dev.db && cp -rf ./prisma/migrations .output/server/node_modules/.prisma/client/migrations",
-    "dev": "nuxt dev",
+    "build": "nuxt build --dotenv .env.production && cp ./prisma/dev.db .output/server/node_modules/.prisma/client/dev.db && cp -rf ./prisma/migrations .output/server/node_modules/.prisma/client/migrations",
+    "dev": "nuxt dev --dotenv .env.development",
     "generate": "nuxt generate",
-    "preview": "nuxt preview",
+    "preview": "node --env-file=.env.production .output/server/index.mjs",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
     "@prisma/nuxt": "^0.0.30",
+    "@t3-oss/env-nuxt": "^0.11.0",
     "firebase": "^10.12.3",
     "h3": "^1.12.0",
     "nuxt": "^3.12.3",
-    "vue": "latest"
+    "vue": "latest",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.12.0",

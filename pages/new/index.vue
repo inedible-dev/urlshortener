@@ -19,6 +19,7 @@ const useUID = useState<string | undefined>("uid")
 //     console.log('url not found')
 // }
 
+// ChatGPT
 const generateRandomUrl = (length?: number): string => {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-';
     const charactersLength = characters.length;
@@ -103,6 +104,7 @@ export default {
         })
     },
     mounted() {
+        // ChatGPT (isSubdomain)
         const isSubdomain = (url: any, domain: any) => {
             try {
                 const hostname = new URL(url).hostname;
@@ -190,7 +192,7 @@ export default {
         <h1 class="text-[35px] font-bold mb-[30px]">{{ appName }}'s URL Shortener</h1>
 
         <div class="flex-row flex mx-auto">
-            <input type="text" id="first_name"
+            <input type="text"
                 class="bg-gray-50 border border-gray-300 outline-none mr-[15px] text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5"
                 placeholder="URL" name="url" v-model="url" v-if="isInput" required autocomplete="off" autofocus>
             <div type="text"

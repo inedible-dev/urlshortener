@@ -64,14 +64,22 @@ const signInClicked = () => {
     .then(async(userCredential) => {
       const user = userCredential.user
       const uid = user.uid
-      if (!user.emailVerified) {
-        sendEmailVerification(user)
-          .then(() => {
-            alert("Email not verified, new verification sent")
-          })
-          .catch((err: any) => {
-            console.log("Email not verified or unknown errors have occured")
-          })
+      // set here to disable verify email
+      const shoudEmailBeVerified = true
+      if (shoudEmailBeVerified) {
+        if (!user.emailVerified) {
+          sendEmailVerification(user)
+            .then(() => {
+              alert("Email not verified, new verification sent")
+            })
+            .catch((err: any) => {
+              console.log("Email not verified or unknown errors have occured")
+            })
+        } else {
+          // localStorage.setItem("uid", uid)
+          useUID.value = uid
+          await navigateTo("/dash")
+        }
       } else {
         // localStorage.setItem("uid", uid)
         useUID.value = uid

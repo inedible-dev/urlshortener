@@ -1,7 +1,7 @@
 import prisma from "../../lib/prisma";
 import { H3Event, sendError, createError } from 'h3'
 
-export default async (event: H3Event) => {
+export default eventHandler(async (event: H3Event) => {
     const body = await readBody(event)
     try {
         const url = await prisma.uRLS.create({
@@ -15,4 +15,4 @@ export default async (event: H3Event) => {
     } catch (err: any) {
         return 'failure'
     }
-}
+})
