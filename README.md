@@ -1,5 +1,7 @@
 # URL Shortener
 
+https://url.inedible.dev/
+
 ## Setup
 
 Make sure to install the dependencies:
