@@ -1,119 +1,67 @@
 <template>
-  <div class="px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
-    <div class="relative flex grid items-center grid-cols-2 lg:grid-cols-3">
-      <ul class="flex items-center hidden space-x-8 lg:flex">
-        <!-- <li>
-            <a
-              href="/"
-              aria-label="Our product"
-              title="Our product"
-              class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-              >Product</a
-            >
-          </li>
-          <li>
-            <a
-              href="/"
-              aria-label="Our product"
-              title="Our product"
-              class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-              >Features</a
-            >
-          </li>
-          <li>
-            <a
-              href="/"
-              aria-label="Product pricing"
-              title="Product pricing"
-              class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-blue-accent-400"
-              >Pricing</a
-            >
-          </li> -->
-      </ul>
-      <a href="/dash" aria-label="Company" title="Company" class="inline-flex items-center lg:mx-auto">
-        <span class="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">URL Shortener</span>
-      </a>
-      <ul class="flex items-center ml-auto space-x-8 lg:flex">
-        <li>
-          <button aria-label="Sign in" title="Sign in" @click="logOut"
-            class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-blue-accent-400">
-            Log Out
-          </button>
-        </li>
-        <!-- <li>
-            <a
-              href="/"
-              class="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-deep-purple-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
-              aria-label="Sign up"
-              title="Sign up"
-            >
-              Sign up
-            </a>
-          </li> -->
-      </ul>
-    </div>
-  </div>
-  <section class="py-1 bg-blueGray-50">
-    <div class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto mt-24">
-      <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded ">
-        <div class="rounded-t mb-0 px-4 py-3 border-0">
-          <div class="flex flex-wrap items-center">
-            <div class="relative w-full px-4 max-w-full flex-grow flex-1">
-              <h3 class="font-semibold text-base text-blueGray-700">Page Visits</h3>
-            </div>
-            <div class="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
-              <a
-                href="/new"
-                class="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="button">Create new</a>
-                <!-- <a
-                href="/dash"
-                class="bg-sky-600 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                type="button">Reload</a> -->
-            </div>
-          </div>
-        </div>
-
-        <div class="block w-full overflow-x-auto">
-          <table class="items-center bg-transparent w-full border-collapse ">
-            <thead>
-              <tr>
-                <th
-                  class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                  Page URL
-                </th>
-                <th
-                  class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                  Visitors
-                </th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <!-- <tr>
-                <th
-                  class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                  <a href="https://www.youtube.com/">https://www.youtube.com/</a>
-                </th>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
-                  4,569
-                </td>
-              </tr> -->
-              <tr v-for="url in urls">
-                <th
-                  class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                  <button @click="copy(url.id)">{{ url.url }}</button>
-                </th>
-                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
-                  {{ url.visits }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+  <Toaster position="top-center" richColors theme="dark" />
+  <div class="bg-gray-900 min-h-screen text-gray-200">
+    <!-- Header -->
+    <header class="bg-gray-800 border-b border-gray-700">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+          <a href="/dash" class="text-xl font-bold text-white">URL Shortener</a>
+          <nav>
+            <ul class="flex space-x-4 items-center">
+              <li>
+                <button @click="logOut" class="text-sm text-gray-300 hover:text-white transition-colors duration-200">
+                  Log Out
+                </button>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
-    </div>
-  </section>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="bg-gray-800 shadow-lg rounded-lg overflow-hidden">
+        <div class="px-4 py-5 border-b border-gray-700 sm:px-6">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-medium text-white">Page Visits</h3>
+            
+            <a href="/new"
+              class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Create new
+            </a>
+          </div>
+        </div>
+        <div class="px-4 py-5 sm:p-6">
+          <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-700">
+              <thead class="bg-gray-700">
+                <tr>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                    Page URL
+                  </th>
+                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                    Visitors
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="bg-gray-800 divide-y divide-gray-700">
+                <tr v-for="url in urls" :key="url.id">
+                  <td class="px-6 py-4 whitespace-nowrap text-sm">
+                    <button @click="copy(url.id)" class="text-blue-400 hover:text-blue-300">{{ url.url }}</button>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                    {{ url.visits }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
 </template>
 
 
@@ -147,10 +95,10 @@ export default {
           }
         })
         if (url.status !== 200) {
-          alert("Error")
+          $toast.error("Error")
         } else {
           if (url._data == "not found") {
-            alert("No URLs found, try to create new.")
+            $toast.error("No URLs found, try to create new.")
           } else {
             urls.value = url._data
           }
@@ -162,6 +110,7 @@ export default {
 
 </script>
 <script setup lang="ts">
+const { $toast } = useNuxtApp()
 const app = useFirebaseApp();
 const auth = getAuth();
 
@@ -185,6 +134,6 @@ const logOut = () => {
 
 const copy = (url: string) => {
   navigator.clipboard.writeText(`${currentHref.value}${url}`)
-  alert(`Copied ${currentHref.value}${url} to clipboard`)
+  $toast.success(`Copied ${currentHref.value}${url} to clipboard`)
 }
 </script>

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { getAuth, signOut } from 'firebase/auth';
 
+const { $toast } = useNuxtApp()
+
 const app = useFirebaseApp()
 const url = ref("")
 const isInput = ref(true)
@@ -39,7 +41,7 @@ const isValidURL = (url: string): boolean => {
 
 const onShorten = async () => {
     if (!isValidURL(url.value)) {
-        alert("Not a valid URL")
+        $toast.error("Not a valid URL")
         return;
     }
     let urlString = ""
@@ -58,7 +60,7 @@ const onShorten = async () => {
                 })
                 // console.log(newData)
             } catch (err: any) {
-                alert(err.message)
+                $toast.error(err.message)
             }
             isInput.value = false
             url.value = `${urlString}`
@@ -69,7 +71,7 @@ const onShorten = async () => {
 
 const onCopy = () => {
     navigator.clipboard.writeText(`${currentHref.value}${url.value}`)
-    alert(`Copied ${currentHref.value}${url.value} to clipboard.`)
+    $toast.success(`Copied ${currentHref.value}${url.value} to clipboard.`)
 }
 
 const auth = getAuth()
@@ -84,7 +86,7 @@ const logOut = () => {
         await navigateTo("/")
     }).catch((error: any) => {
         console.error(error)
-        alert("An error has occured. See log for more info")
+        $toast.error("An error has occured. See log for more info")
     })
 }
 </script>
@@ -137,74 +139,54 @@ export default {
 </script>
 
 <template>
-    <div class="px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
-        <div class="relative flex grid items-center grid-cols-2 lg:grid-cols-3">
-            <ul class="flex items-center hidden space-x-8 lg:flex">
-                <!-- <li>
-            <a
-              href="/"
-              aria-label="Our product"
-              title="Our product"
-              class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-              >Product</a
-            >
-          </li>
-          <li>
-            <a
-              href="/"
-              aria-label="Our product"
-              title="Our product"
-              class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-purple-accent-400"
-              >Features</a
-            >
-          </li>
-          <li>
-            <a
-              href="/"
-              aria-label="Product pricing"
-              title="Product pricing"
-              class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-deep-blue-accent-400"
-              >Pricing</a
-            >
-          </li> -->
-            </ul>
-            <a href="/" aria-label="Company" title="Company" class="inline-flex items-center lg:mx-auto">
-                <span class="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">URL Shortener</span>
-            </a>
-            <ul class="flex items-center ml-auto space-x-8 lg:flex">
-                <li>
-                    <button aria-label="Sign in" title="Log Out" @click="logOut"
-                        class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-blue-accent-400">
-                        Log Out
-                    </button>
-                </li>
-                <li>
-                    <a href="/dash"
-                        class="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-blue-accent-400 hover:bg-deep-purple-accent-700 focus:shadow-outline focus:outline-none"
-                        aria-label="Sign up" title="Sign up">
-                        Dashboard
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="text-center justify-center flex flex-col items-center h-screen content-center object-center">
-        <h1 class="text-[35px] font-bold mb-[30px]">{{ appName }}'s URL Shortener</h1>
+    <Toaster position="top-center" richColors theme="dark" />
+    <div class="bg-gray-900 min-h-screen text-gray-200">
+        <!-- Header -->
+        <header class="bg-gray-900 text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16 items-center">
+                    <a href="/" class="text-xl font-bold">URL Shortener</a>
+                    <nav>
+                        <ul class="flex space-x-4 items-center">
+                            <li>
+                                <button @click="logOut"
+                                    class="text-sm hover:text-gray-300 transition-colors duration-200">
+                                    Log Out
+                                </button>
+                            </li>
+                            <li>
+                                <a href="/dash"
+                                    class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                    Dashboard
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </header>
 
-        <div class="flex-row flex mx-auto">
-            <input type="text"
-                class="bg-gray-50 border border-gray-300 outline-none mr-[15px] text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5"
-                placeholder="URL" name="url" v-model="url" v-if="isInput" required autocomplete="off" autofocus>
-            <div type="text"
-                class="bg-gray-50 border pt-[12px] border-gray-300 outline-none mr-[15px] text-gray-900 text-sm rounded-lg focus:ring-sky-500 focus:border-sky-500 block w-full p-2.5"
-                id="urlField" v-if="!isInput">
-                {{ currentHref }}{{ url }}</div>
-            <button
-                class="outline-none transition-all ease-in-out hover:scale-110 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 text-white font-semibold h-12 px-6 rounded-lg w-full flex items-center justify-center sm:w-auto bg-sky-500 dark:highlight-white/20 hover:bg-sky-400"
-                type="submit" @click="onShorten" v-if="isInput">Shorten</button>
-            <button
-                class="outline-none transition-all ease-in-out hover:scale-110 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50 text-white font-semibold h-12 px-6 rounded-lg w-full flex items-center justify-center sm:w-auto bg-sky-500 dark:highlight-white/20 hover:bg-sky-400"
-                type="submit" @click="onCopy" v-if="!isInput">Copy</button>
-        </div>
+        <!-- Main Content -->
+        <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <h1 class="text-3xl font-bold text-center mb-8 text-white">{{ appName }}'s URL Shortener</h1>
+
+            <div class="flex space-x-4">
+                <input v-if="isInput" type="text"
+                    class="flex-grow px-3 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-white"
+                    placeholder="Enter URL to shorten" v-model="url" required autocomplete="off" autofocus>
+                <div v-else
+                    class="flex-grow px-3 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm text-white">
+                    {{ currentHref }}{{ url }}
+                </div>
+                <button v-if="isInput" @click="onShorten"
+                    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    Shorten
+                </button>
+                <button v-else @click="onCopy"
+                    class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    Copy
+                </button>
+            </div>
+        </main>
     </div>
 </template>

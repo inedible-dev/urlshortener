@@ -28,5 +28,8 @@ export default defineNuxtConfig({
       appId: "",
       measurementId: ""
     }
+  },
+  build: {
+    transpile: ['vue-sonner']
   }
 })
