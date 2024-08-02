@@ -16,7 +16,8 @@ export default defineNuxtConfig({
   },
   routeRules: {
     '/**': { ssr: true },
-    '/new': { ssr: false }
+    '/new': { ssr: false },
+    '/dash': { ssr: false }
   },
   runtimeConfig: {
     public: {

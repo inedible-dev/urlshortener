@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { getAuth, signOut } from 'firebase/auth';
 
+const newColorScheme = ref(window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light")
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+    newColorScheme.value = event.matches ? "dark" : "light";
+});
+
 const { $toast } = useNuxtApp()
 
 const app = useFirebaseApp()
@@ -139,10 +144,10 @@ export default {
 </script>
 
 <template>
-    <Toaster position="top-center" richColors theme="dark" />
-    <div class="bg-gray-900 min-h-screen text-gray-200">
+    <Toaster position="top-center" richColors :theme="newColorScheme" />
+    <div class="dark:bg-gray-900 min-h-screen dark:text-gray-200">
         <!-- Header -->
-        <header class="bg-gray-900 text-white">
+        <header class="dark:bg-gray-900 dark:text-white border-b dark:border-none">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-16 items-center">
                     <a href="/" class="text-xl font-bold">URL Shortener</a>
@@ -168,11 +173,11 @@ export default {
 
         <!-- Main Content -->
         <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <h1 class="text-3xl font-bold text-center mb-8 text-white">{{ appName }}'s URL Shortener</h1>
+            <h1 class="text-3xl font-bold text-center mb-8 dark:text-white">{{ appName }}'s URL Shortener</h1>
 
             <div class="flex space-x-4">
                 <input v-if="isInput" type="text"
-                    class="flex-grow px-3 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-white"
+                    class="flex-grow px-3 outline-none py-2 dark:bg-gray-800 border dark:border-gray-700 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 dark:text-white"
                     placeholder="Enter URL to shorten" v-model="url" required autocomplete="off" autofocus>
                 <div v-else
                     class="flex-grow px-3 py-2 bg-gray-800 border border-gray-700 rounded-md shadow-sm text-white">
