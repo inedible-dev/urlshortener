@@ -41,10 +41,7 @@
 <script lang="ts" setup>
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
 
-const newColorScheme = ref(window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light")
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-    newColorScheme.value = event.matches ? "dark" : "light";
-});
+const newColorScheme = useState("newColorSchema")
 
 const app = useFirebaseApp();
 const email = ref("")
@@ -52,6 +49,7 @@ const auth = getAuth();
 const { $toast } = useNuxtApp()
 
 const onReset = () => {
+  if (email.value) {
     sendPasswordResetEmail(auth, email.value)
         .then(async () => {
             $toast.success("Password reset email sent, please also check your spam folder");
@@ -60,5 +58,19 @@ const onReset = () => {
         .catch((error: any) => {
             console.log(error.code);
         })
+  } else {
+    $toast.error("Please enter your email address");
+  }
+}
+</script>
+
+<script lang="ts">
+export default {
+  beforeMount() {
+    const newColorScheme = useState("newColorSchema" , () => window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light")
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+        newColorScheme.value = event.matches ? "dark" : "light";
+    });
+  }
 }
 </script>

@@ -14,7 +14,7 @@
             <label for="email" class="block text-sm font-medium leading-6">Email address</label>
             <div class="mt-2">
               <input v-model="email" id="email" name="email" type="email" autocomplete="email" required
-              class="block dark:bg-gray-800 px-[10px] w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 placeholder:text-gray-200 dark:text-white text-grey-900 outline-none sm:text-sm sm:leading-6" />
+              class="block focus:ring-sky-400 focus:ring-2 dark:bg-gray-800 px-[10px] w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 placeholder:text-gray-200 dark:text-white text-grey-900 outline-none sm:text-sm sm:leading-6" />
             </div>
           </div>
 
@@ -28,7 +28,7 @@
             <div class="mt-2">
               <input v-model="password" id="password" name="password" type="password" autocomplete="current-password"
                 required
-                class="block dark:bg-gray-800 px-[10px] w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 placeholder:text-gray-200 dark:text-white text-grey-900 outline-none sm:text-sm sm:leading-6" />
+                class="block focus:ring-sky-400 focus:ring-2 dark:bg-gray-800 px-[10px] w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 placeholder:text-gray-200 dark:text-white text-grey-900 outline-none sm:text-sm sm:leading-6" />
             </div>
           </div>
           <div>
@@ -40,7 +40,7 @@
             </div>
             <div class="mt-2">
               <input v-model="repeat" id="repeat" name="repeat" type="password" autocomplete="current-password" required
-              class="block dark:bg-gray-800 px-[10px] w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 placeholder:text-gray-200 dark:text-white text-grey-900 outline-none sm:text-sm sm:leading-6" />
+              class="block focus:ring-sky-400 focus:ring-2 dark:bg-gray-800 px-[10px] w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 placeholder:text-gray-200 dark:text-white text-grey-900 outline-none sm:text-sm sm:leading-6" />
             </div>
           </div>
           <div>
@@ -53,7 +53,7 @@
           </button> -->
           </div>
           </div>
-          <div class="flex items-center mt-2.5 mb-2.5 text-sm font-medium">
+          <div class="flex items-center mt-3 mb-3 text-sm font-medium">
             <span class="h-0 w-full border-[0.5px] dark:border-gray-700"></span>
             <span class="shrink-0 dark:bg-gray-900 px-6 text-gray-900 dark:text-gray-200 bg-white">Or continue
               with</span>
@@ -183,7 +183,7 @@ const googleSignIn = () => {
       const errorMessage = error.message;
       const email = error.email;
       const credential = GoogleAuthProvider.credentialFromError(error);
-      $toast.error(error)
+      $toast.error(errorCode)
     })
 }
 </script>
