@@ -1,4 +1,5 @@
 <template>
+  <Toaster position="top-center" richColors :theme="newColorScheme" />
   <div class="dark:bg-gray-900 min-h-screen dark:text-gray-200">
     <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div class="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -39,6 +40,30 @@
               in</button>
           </div>
         </div>
+        <div class="flex items-center mt-2.5 mb-2.5 text-sm font-medium">
+            <span class="h-0 w-full border-[0.5px] dark:border-gray-700"></span>
+            <span class="shrink-0 dark:bg-gray-900 px-6 text-gray-900 dark:text-gray-200 bg-white">Or continue
+              with</span>
+            <span class="h-0 w-full border-[0.5px] dark:border-gray-700"></span>
+          </div>
+          <button type="button"
+            @click="googleSignIn"
+            class="flex items-center justify-center w-full gap-2 rounded-md border bg-white dark:bg-black dark:text-white dark:border-gray-700 px-3 py-2 text-sm font-medium text-black transition hover:bg-gray-100 dark:hover:bg-[#080808] focus:outline-none"><svg
+              width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg"
+              class="size-5">
+              <path
+                d="M250 98.9583C286.875 98.9583 319.896 111.667 345.937 136.458L417.292 65.1042C373.958 24.7917 317.396 0 250 0C152.292 0 67.8123 56.0417 26.6665 137.708L109.792 202.188C129.479 142.917 184.792 98.9583 250 98.9583Z"
+                fill="#EA4335"></path>
+              <path
+                d="M489.375 255.729C489.375 239.375 487.812 223.541 485.417 208.333H250V302.291H384.792C378.75 333.125 361.25 359.375 335 377.083L415.521 439.583C462.5 396.041 489.375 331.666 489.375 255.729Z"
+                fill="#4285F4"></path>
+              <path
+                d="M109.688 297.812C104.688 282.708 101.771 266.666 101.771 250C101.771 233.333 104.583 217.291 109.688 202.187L26.5625 137.708C9.58333 171.458 0 209.583 0 250C0 290.416 9.58333 328.541 26.6667 362.291L109.688 297.812Z"
+                fill="#FBBC05"></path>
+              <path
+                d="M250 500C317.5 500 374.271 477.812 415.521 439.479L335 376.979C312.604 392.083 283.75 400.937 250 400.937C184.792 400.937 129.479 356.979 109.687 297.708L26.5625 362.187C67.8125 443.958 152.292 500 250 500Z"
+                fill="#34A853"></path>
+            </svg><span>Sign in with Google</span></button>
 
         <p class="mt-10 text-center text-sm text-gray-500">
           No account?
@@ -54,7 +79,12 @@
 </template>
 
 <script lang="ts" setup>
-import { getAuth, sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, sendEmailVerification, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+
+const newColorScheme = useState("newColorSchema")
+
+const { $toast } = useNuxtApp()
+
 const app = useFirebaseApp()
 const auth = getAuth()
 const email = ref("")
@@ -65,7 +95,7 @@ const clearField = () => {
 }
 const signInClicked = () => {
   if (email.value === "" && password.value === "") {
-    alert("Email or Password cannot be empty")
+    $toast.error("Email or Password cannot be empty")
     clearField()
     return
   }
@@ -79,7 +109,7 @@ const signInClicked = () => {
         if (!user.emailVerified) {
           sendEmailVerification(user)
             .then(() => {
-              alert("Email not verified, new verification sent")
+              $toast.error("Email not verified, new verification sent")
             })
             .catch((err: any) => {
               console.log("Email not verified or unknown errors have occured")
@@ -100,9 +130,49 @@ const signInClicked = () => {
       // if (errorCode !== "auth/invalid-email") {
       //   alert(errorCode)
       // }
-      alert(errorCode)
+      $toast.error(errorCode)
       
     })
   clearField()
+}
+
+const googleProvider = new GoogleAuthProvider();
+const googleSignIn = () => {
+  signInWithPopup(auth, googleProvider)
+    .then(async (result) => {
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential?.accessToken;
+      const user = result.user;
+      if (!user.emailVerified) {
+        sendEmailVerification(user)
+          .then(() => {
+            $toast.success("email verfication sent")
+          }).catch((e: any) => {
+            console.log(e)
+          })
+      } else {
+        // localStorage.setItem("uid", uid)
+        useUID.value = user.uid
+        await navigateTo("/dash")
+      }
+      // console.log(user)
+    }).catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      const email = error.email;
+      const credential = GoogleAuthProvider.credentialFromError(error);
+      $toast.error(error)
+    })
+}
+</script>
+
+<script lang="ts">
+export default {
+  beforeMount() {
+    const newColorScheme = useState("newColorSchema" , () => window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light")
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+        newColorScheme.value = event.matches ? "dark" : "light";
+    });
+  }
 }
 </script>

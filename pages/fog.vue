@@ -1,4 +1,5 @@
 <template>
+  <Toaster position="top-center" richColors :theme="newColorScheme" />
   <div class="dark:bg-gray-900 min-h-screen dark:text-gray-200">
     <div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div class="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -37,17 +38,23 @@
   </footer> -->
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { getAuth, sendPasswordResetEmail } from 'firebase/auth';
+
+const newColorScheme = ref(window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light")
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+    newColorScheme.value = event.matches ? "dark" : "light";
+});
 
 const app = useFirebaseApp();
 const email = ref("")
 const auth = getAuth();
+const { $toast } = useNuxtApp()
 
 const onReset = () => {
     sendPasswordResetEmail(auth, email.value)
         .then(async () => {
-            alert("Password reset email sent, please also check your spam folder");
+            $toast.success("Password reset email sent, please also check your spam folder");
             await navigateTo("/login")
         })
         .catch((error: any) => {
